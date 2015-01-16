@@ -22,7 +22,7 @@ irisLong$Measurement<-part_measure[,2]
 irisLong<-irisLong[,-3]
 head(irisLong)
 ```
-Now, we need to cast data into wide fomat so that it has columns of length and width.
+Now, we need to cast data into wide format so that it has columns of length and width.
 ```{r}
 irisWide<-dcast(irisLong,Species+Flower_id+Flower_part~Measurement)
 head(irisWide)
