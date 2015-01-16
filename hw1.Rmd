@@ -1,0 +1,40 @@
+---
+title: "BIOST578 HW1 Xiaowen Tian"
+output: html_document
+---
+
+```{r}
+head(iris)
+```
+To do a plot of width and length by flower part and species, we need to format data into data frame with columns of length, width, species, and flower part.
+First we need to melt data and create id variables.
+```{r}
+library(reshape2)
+iris$Flower_id<-rownames(iris)
+irisLong<-melt(iris)
+head(irisLong)
+```
+Then we can split "variable" to get columns of flower_type and mesurement_type.
+```{r}
+part_measure<-matrix(unlist(strsplit(as.character(irisLong$variable),"\\.")),ncol=2,byrow=T)
+irisLong$Flower_part<-part_measure[,1]
+irisLong$Measurement<-part_measure[,2]
+irisLong<-irisLong[,-3]
+head(irisLong)
+```
+Now, we need to cast data into wide fomat so that it has columns of length and width.
+```{r}
+irisWide<-dcast(irisLong,Species+Flower_id+Flower_part~Measurement)
+head(irisWide)
+```
+Finally, we can plot the data showing length and width by facetting flower part and flower type.
+```{r}
+library(ggplot2)
+library(ggthemes)
+ggplot(data=irisWide,aes(x=Width,y =Length,shape=Flower_part,color = Flower_part)) +
+  geom_point()+facet_grid(~Species)+geom_smooth(method = "lm")+ 
+  theme_stata()+scale_colour_stata()+ ##add STATA theme 
+  theme(axis.text=element_text(size=12),axis.title=element_text(size=14,face="bold"))
+```
+
+
