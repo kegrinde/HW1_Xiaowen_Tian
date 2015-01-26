@@ -1,5 +1,5 @@
 # HW1_Xiaowen_Tian
 
-Reviewer: Yatong Li or Kelsey Grinde
+Reviewer: Kelsey Grinde
 
 Group: 3
