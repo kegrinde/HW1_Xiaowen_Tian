@@ -19,6 +19,7 @@ Then we can split "variable" to get columns of flower_type and mesurement_type.
 part_measure<-matrix(unlist(strsplit(as.character(irisLong$variable),"\\.")),ncol=2,byrow=T)
 irisLong$Flower_part<-part_measure[,1]
 irisLong$Measurement<-part_measure[,2]
+# now we can delete the third column (variable) because that information is captured in the new columns Flower_part and Measurement
 irisLong<-irisLong[,-3]
 head(irisLong)
 ```
@@ -37,4 +38,12 @@ ggplot(data=irisWide,aes(x=Width,y =Length,shape=Flower_part,color = Flower_part
   theme(axis.text=element_text(size=12),axis.title=element_text(size=14,face="bold"))
 ```
 
-
+The plot above has facets just for flower type (or species) and then uses different colors and shapes to represent the different flower parts. If you wanted to produce a plot of `Length` versus `Width` with facets for both flower type *and* flower part, it might look something like this:
+```{r}
+ggplot(data=irisWide,aes(x=Width,y=Length,shape=Flower_part,color=Flower_part))+
+  geom_point()+
+  facet_grid(Flower_part~Species)+
+  geom_smooth(method='lm')+
+  theme_stata()+scale_colour_stata()+ ##add STAT theme
+  theme(axis.text=element_text(size=12),axis.title=element_text(size=14,face="bold"))
+```
